@@ -1,0 +1,13 @@
+Sugerencias:
+
+Herramientas de envio de emails/notificaciones (Nodemailer, Twilio)
+Herramientas de autenticación e intercambio de información (Passport, JWT)
+Servicios de login (Github, Google)
+Servicios de geolocalización (Nominatim, https://ipapi.co/)
+Api's de clima (Open Weather Map)
+Api's de tipo de cambio (conversores de moneda)
+Api's informativas (https://restcountries.com/, https://developer.nytimes.com/apis)
+Servicios de comunicación (Websockets)
+Criptomonedas (https://www.coingecko.com/en/api, https://www.quicknode.com/docs/welcome)
+Imágenes & Gifs (https://unsplash.com/documentation, https://pixabay.com/service/about/api/, https://developers.giphy.com/)
+Películas (https://developer.themoviedb.org/docs/getting-started)
