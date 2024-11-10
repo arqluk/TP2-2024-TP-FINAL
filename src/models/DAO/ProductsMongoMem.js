@@ -12,19 +12,33 @@ class ProdMongoModel{
     
     postProd = async (data) => {
         const newProduct = await MongoConnection.db.collection("products").insertOne(data)
-        return newProduct
+        return { message: "Producto agregado correctamente.", newProduct }
+        //return newProduct
     }
 
-    // actualiza solo UNA PARTE del objeto
     patchProd = async (id, data) => {
-        //console.log(_id)
-        // updateOne -> actualiza el campo si existe y si no crea uno nuevo
-        const prod = await MongoConnection.db.collection("products").updateOne(
-            // la configuración del driver de Mongodb para pasar el tipo de objeto que necesita Mongo
-            { _id: ObjectId.createFromHexString(id) },
-            { $set: data }
-        )
-        return prod
+        try {
+            const productoExistente = await MongoConnection.db.collection("products").findOne({ _id: ObjectId.createFromHexString(id) });
+            
+            if (!productoExistente) {
+                throw new Error("El producto no existe en la base de datos.");
+            }
+    
+            const prod = await MongoConnection.db.collection("products").updateOne(
+                { _id: ObjectId.createFromHexString(id) },
+                { $set: data }
+            )
+    
+            if (prod.modifiedCount === 0) {
+                throw new Error("No se realizaron cambios en el producto.");
+            }
+    
+            return { message: "Producto actualizado correctamente.", prod }
+            //return prod;  // Retorna `prod` después de la actualización exitosa
+    
+        } catch (error) {
+            throw new Error(`Error al actualizar el producto: ${error.message}`)
+        }
     }
 
     // el PUT cambia por completo el objeto
@@ -42,6 +56,32 @@ class ProdMongoModel{
             { _id: ObjectId.createFromHexString(id) }
         )
         return prod
+    }
+
+    deleteProd = async (id) => {
+        try {
+            const productoExistente = await MongoConnection.db.collection("products").findOne({ _id: ObjectId.createFromHexString(id) });
+            
+            if (!productoExistente) {
+                throw new Error("El producto no existe en la base de datos.");
+            }
+    
+            const prod = await MongoConnection.db.collection("products").deleteOne(
+                { _id: ObjectId.createFromHexString(id) },
+            //    { $set: data }
+            
+            )
+    
+            if (prod.deletedCount === 0) {
+                throw new Error("No se realizó la eliminación del producto.");
+            }
+    
+            return { message: "Producto eliminado correctamente.", prod };
+            //return prod;  // Retorna `prod` después de la actualización exitosa
+    
+        } catch (error) {
+            throw new Error(`Error al eliminar el producto: ${error.message}`)
+        }
     }
 }
 
