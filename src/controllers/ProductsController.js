@@ -38,4 +38,4 @@ class ProdController {
 
 }
 
-export default ProdController;
+export default ProdController
