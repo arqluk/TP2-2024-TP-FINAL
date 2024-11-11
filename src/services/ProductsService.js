@@ -1,10 +1,10 @@
-import Factory from "../models/DAO/Factory.js"
+import FactoryProd from "../models/DAO/FactoryProd.js"
 import config from "../config.js"
 
 class ProdService{
 
     constructor(){
-        this.model = Factory.get(config.PERSISTENCE)
+        this.model = FactoryProd.get(config.PERSISTENCE)
     }
 
     getProd = async () => {

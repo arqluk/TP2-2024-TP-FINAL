@@ -1,7 +1,7 @@
 import ProdMemModel from "./ProductsMemMemory.js"
 import ProdMongoModel from "./ProductsMongoMem.js"
 
-class Factory{
+class FactoryProd{
     static get(persistencia){
         switch (persistencia) {
             case "MEM":
@@ -17,4 +17,4 @@ class Factory{
     }
 }
 
-export default Factory
+export default FactoryProd
