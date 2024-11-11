@@ -11,7 +11,12 @@ class UserService{
         const user = await this.model.getUser()
         return user
     }
-    
+
+    getUserById = async (id) => {
+        const user = await this.model.getUserById(id)
+        return user
+    }
+
     postUser = async (data) => {
         const newUser = await this.model.postUser(data)
         return newUser

@@ -9,6 +9,7 @@ class ProdRoutes{
 
     start(){
         this.router.get("/prod", this.controller.getProd)
+        this.router.get("/prod/:id", this.controller.getProdById)
         this.router.post("/prod", this.controller.postProd)
         this.router.patch("/prod/update/:id", this.controller.patchProd)
         this.router.put("/prod/update/all/:id", this.controller.putProd)

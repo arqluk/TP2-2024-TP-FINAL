@@ -10,6 +10,23 @@ class UserController {
     res.send(user)
   }
 
+  getUserById = async (req, res) => {
+    const { id } = req.params
+    try {
+      const user = await this.service.getUserById(id);
+      res.status(200).send(user);
+  } catch (error) {
+      // Verifica el tipo de error y responde adecuadamente
+      if (error.message.includes("no existe")) {
+          res.status(404).send({ errorMsg: error.message });
+      } else if (error.message.includes("Error al actualizar")) {
+          res.status(422).send({ errorMsg: error.message });
+      } else {
+          res.status(500).send({ errorMsg: "Error interno del servidor" });
+      }
+  }
+}
+
   postUser = async (req, res) => {
     const data = req.body
     const newUser = await this.service.postUser(data)

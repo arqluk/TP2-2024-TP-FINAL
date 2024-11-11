@@ -11,6 +11,11 @@ class ProdService{
         const prod = await this.model.getProd()
         return prod
     }
+
+    getProdById = async (id) => {
+        const prod = await this.model.getProdById(id)
+        return prod
+    }
     
     postProd = async (data) => {
         const newProd = await this.model.postProd(data)
