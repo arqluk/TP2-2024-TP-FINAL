@@ -27,10 +27,20 @@ class ProdController {
   }
 }
 
+  // postProd = async (req, res) => {
+  //   const data = req.body
+  //   const newProd = await this.service.postProd(data)
+  //   res.send(newProd)
+  // }
+
   postProd = async (req, res) => {
     const data = req.body
-    const newProd = await this.service.postProd(data)
+    try {
+      const newProd = await this.service.postProd(data)
     res.send(newProd)
+    } catch (error) {
+      res.status(404).send({ errorMsg: error.message })
+    }
   }
 
   patchProd = async (req, res) => {
