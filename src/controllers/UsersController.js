@@ -27,10 +27,20 @@ class UserController {
   }
 }
 
+  // postUser = async (req, res) => {
+  //   const data = req.body
+  //   const newUser = await this.service.postUser(data)
+  //   res.send(newUser)
+  // }
+
   postUser = async (req, res) => {
     const data = req.body
-    const newUser = await this.service.postUser(data)
+    try {
+      const newUser = await this.service.postUser(data)
     res.send(newUser)
+    } catch (error) {
+      res.status(404).send({ errorMsg: error.message })
+    }
   }
 
   patchUser = async (req, res) => {

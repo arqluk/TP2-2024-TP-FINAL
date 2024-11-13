@@ -1,5 +1,6 @@
 import FactoryUser from "../models/DAO/FactoryUser.js"
 import config from "../config.js"
+import { validateUser } from "../services/validate/schema.js"
 
 class UserService{
 
@@ -17,9 +18,18 @@ class UserService{
         return user
     }
 
+    // postUser = async (data) => {
+    //     const newUser = await this.model.postUser(data)
+    //     return newUser
+    // }
+
     postUser = async (data) => {
-        const newUser = await this.model.postUser(data)
-        return newUser
+        if (validateUser(data)) {
+            const newUser = await this.model.postUser(data)
+            return newUser
+        } else {
+            throw new Error("Se quiere ingresar algún campo incorrecto.")
+        }
     }
 
     patchUser = async (id, data) => {

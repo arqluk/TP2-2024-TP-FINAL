@@ -10,10 +10,39 @@ export const validateProd = (prod) => {
         createdAt: Joi.string().min(1),
         updatedAt: Joi.string().min(1)
     })
-
-    //validate -> es propia de Joi y valida el dato que yo le pase
     const { error } = prodSchema.validate(prod)
-    //esto es un ejemplo de como manejar el error
+    const validation = error ? false : true
+    return validation
+}
+
+export const validateUser = (user) => {
+    const userSchema = Joi.object({
+        firstName: Joi.string().min(1).max(20).required(),
+        lastName: Joi.string().min(1).max(20).required(),
+        email: Joi.string().email().max(50).required(), // Validación de formato de correo y longitud máxima
+        password: Joi.string().min(6).max(20),
+        phoneNumber: Joi.string().min(6).max(20),
+        address: {
+            street: Joi.string().min(1).max(20),
+            city: Joi.string().min(1).max(20),
+            postalCode: Joi.string().min(1).max(10),
+            country: Joi.string().min(1).max(20),
+            additionalInfo: Joi.string().min(1).max(10),
+        },
+        cart: Joi.array().items(Joi.object()).default([]), // Validación como un array de objetos vacío por defecto
+        purchaseHistory: Joi.array().items(Joi.object()).default([]), // Igual que el carrito                                             //Joi.string().min(1),
+        preferredPaymentMethod: Joi.string().min(4).max(15),
+        newsletterSubscribed:Joi.boolean(),                 
+        createdAt: Joi.string().min(1),
+        updatedAt: Joi.string().min(1),
+        lastLogin: Joi.string().min(1),
+        // createdAt: Joi.date().iso(), // Validación de fechas en formato ISO
+        // updatedAt: Joi.date().iso(),
+        // lastLogin: Joi.date().iso(),
+        role: Joi.string().min(1),
+        verificationStatus: Joi.boolean()                   
+    })
+    const { error } = userSchema.validate(user)
     const validation = error ? false : true
     return validation
 }
