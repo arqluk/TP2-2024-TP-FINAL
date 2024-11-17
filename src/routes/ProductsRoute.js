@@ -1,5 +1,6 @@
 import ProdController from "../controllers/ProductsController.js"
 import express from "express"
+import { roleAuth } from "../middleware/roleAuth.js"
 
 //Clase que maneja las rutas de productos.
 //Esta clase define las rutas HTTP para crear, obtener, actualizar y eliminar productos.
@@ -18,22 +19,23 @@ class ProdRoutes {
     //@returns {Object} El router con las rutas configuradas.
     start() {
         // Obtener todos los productos
-        this.router.get("/prod", this.controller.getProd); 
+        this.router.get("/prod", this.controller.getProd)
         // Obtener un producto por ID
         this.router.get("/prod/:id", this.controller.getProdById); 
         // Crear un producto
-        this.router.post("/prod", this.controller.postProd); 
+        this.router.post("/prod", roleAuth, this.controller.postProd) 
         // Actualizar parcialmente un producto
-        this.router.patch("/prod/update/:id", this.controller.patchProd); 
+        this.router.patch("/prod/update/:id", roleAuth, this.controller.patchProd) 
         // Actualizar completamente un producto
-        this.router.put("/prod/update/all/:id", this.controller.putProd); 
+        this.router.put("/prod/update/all/:id", roleAuth, this.controller.putProd); 
         // Eliminar un producto
-        this.router.delete("/prod/:id", this.controller.deleteProd); 
+        this.router.delete("/prod/:id", roleAuth, this.controller.deleteProd); 
         // Obtener el precio en ARS de un producto
         this.router.get("/prod/priceInARS/:id", this.controller.getProdPriceInARS); 
+
 
         return this.router;
     }
 }
 
-export default ProdRoutes;
+export default ProdRoutes 

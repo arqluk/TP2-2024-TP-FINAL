@@ -2,11 +2,11 @@ import Joi from "joi"
 
 export const validateProd = (prod) => {
     const prodSchema = Joi.object({
-        name: Joi.string().min(1).max(20),
-        description: Joi.string().min(1).max(40),
-        price: Joi.number().min(0).max(10000),
-        stock: Joi.number().min(0),
-        category: Joi.string().min(1).max(15),
+        name: Joi.string().min(1).max(30),
+        description: Joi.string().min(1).max(100),
+        price: Joi.number().integer().min(0).max(10000),
+        stock: Joi.number().integer().min(0).max(1000),
+        category: Joi.string().min(1).max(30),
         createdAt: Joi.string().min(1),
         updatedAt: Joi.string().min(1)
     })
@@ -36,13 +36,10 @@ export const validateUser = (user) => {
         createdAt: Joi.string().min(1),
         updatedAt: Joi.string().min(1),
         lastLogin: Joi.string().min(1),
-        // createdAt: Joi.date().iso(), // Validación de fechas en formato ISO
-        // updatedAt: Joi.date().iso(),
-        // lastLogin: Joi.date().iso(),
         role: Joi.string().min(1),
         verificationStatus: Joi.boolean()                   
     })
     const { error } = userSchema.validate(user)
     const validation = error ? false : true
     return validation
-}
+} 
