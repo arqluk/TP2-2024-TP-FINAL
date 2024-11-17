@@ -18,11 +18,6 @@ class ProdService {
         return prod
     }
 
-    // postProd = async (data) => {
-    //     const newProd = await this.model.postProd(data)
-    //     return newProd
-    // }
-
     postProd = async (data) => {
         if (validateProd(data)) {
             const newProd = await this.model.postProd(data)
