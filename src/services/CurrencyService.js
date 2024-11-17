@@ -1,22 +1,27 @@
 import axios from 'axios';
 
-const getExchangeRate = async () => {
-    try {
-
-        const response = await axios.get('https://dolarapi.com/v1/dolares/oficial');
-
-        if (response.status === 200) {
-            const { compra, venta } = response.data;
-            return { compra, venta };
-        } else {
-            throw new Error('Error en la respuesta de Dólar API');
-        }
-    } catch (error) {
-        throw new Error(`Error al obtener el tipo de cambio: ${error.message}`);
+class CurrencyService {
+    constructor() {
     }
-};
+    getExchangeRate = async () => {
+        try {
 
-export default getExchangeRate;
+            const response = await axios.get('https://dolarapi.com/v1/dolares/oficial')
+
+            if (response.status === 200) {
+                const { compra, venta } = response.data
+                return { compra, venta };
+            } else {
+                throw new Error('Error en la respuesta de Dólar API')
+            }
+        } catch (error) {
+            throw new Error(`Error al obtener el tipo de cambio: ${error.message}`)
+        }
+    }
+}
+
+export default CurrencyService
+
 
 
 /* codigo para un archivo test.js o donde quieran usar la api
