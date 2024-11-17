@@ -49,4 +49,4 @@ class ProdService {
 }
 
 
-export default ProdService
+export default ProdService 
