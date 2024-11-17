@@ -7,14 +7,20 @@
   "scripts": {
     "start": "node --env-file=.env .",
     "watch": "node --env-file=.env --watch .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha src/test/products.integration.test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chai": "^5.1.2",
     "express": "^4.21.1",
     "joi": "^17.13.3",
-    "mongodb": "^6.10.0"
+    "mocha": "^10.8.2",
+    "mongodb": "^6.10.0",
+    "supertest": "^7.0.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.2.0"
   }
 }
