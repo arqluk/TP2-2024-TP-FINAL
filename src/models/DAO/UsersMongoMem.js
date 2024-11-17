@@ -5,22 +5,17 @@ class UserMongoModel {
     constructor() {
     }
 
-    /**
-     * Recupera todos los usuarios almacenados en la colección `users`.
-     * @returns {Promise<Array>} Un array con todos los usuarios encontrados.
-     */
+    // Recupera todos los usuarios almacenados en la colección `users`.
+    // @returns {Promise<Array>} Un array con todos los usuarios encontrados.
     getUser = async () => {
         const users = await MongoConnection.db.collection("users").find({}).toArray()
         return users
     }
 
-    /**
-     * Busca un usuario por su ID. Valida que el ID sea hexadecimal y tenga la longitud correcta.
-     * Si el usuario no existe, devuelve un error.
-     * @param {string} id - El ID del usuario a buscar.
-     * @returns {Promise<Object>} Un objeto con un mensaje y los detalles del usuario si existe.
-     * @throws {Error} Si el usuario no existe o el ID es inválido.
-     */
+    // Busca un usuario por su ID. Valida que el ID sea hexadecimal y tenga la longitud correcta.
+    // Si el usuario no existe, devuelve un error.
+    // @param {string} id - El ID del usuario a buscar.
+    // @throws {Error} Si el usuario no existe o el ID es inválido.
     getUserById = async (id) => {
         try {
             // Validación del ID
@@ -39,23 +34,17 @@ class UserMongoModel {
         }
     }
 
-    /**
-     * Inserta un nuevo usuario en la colección `users`.
-     * @param {Object} data - Los datos del usuario a agregar.
-     * @returns {Promise<Object>} Un mensaje con la confirmación de que el usuario fue agregado.
-     */
+    // Inserta un nuevo usuario en la colección `users`.
+    // @param {Object} data - Los datos del usuario a agregar.
     postUser = async (data) => {
         const newUser = await MongoConnection.db.collection("users").insertOne(data)
         return { message: "Usuario agregado correctamente.", newUser }
     }
 
-    /**
-     * Actualiza parcialmente los datos de un usuario en la colección `users`.
-     * @param {string} id - El ID del usuario a actualizar.
-     * @param {Object} data - Los datos a actualizar en el usuario.
-     * @returns {Promise<Object>} Un mensaje con la confirmación de que el usuario fue actualizado.
-     * @throws {Error} Si el usuario no existe o si no se realizaron cambios.
-     */
+    // Actualiza parcialmente los datos de un usuario en la colección `users`.
+    // @param {string} id - El ID del usuario a actualizar.
+    // @param {Object} data - Los datos a actualizar en el usuario.
+    // @throws {Error} Si el usuario no existe o si no se realizaron cambios.
     patchUser = async (id, data) => {
         try {
             const usuarioExistente = await MongoConnection.db.collection("users").findOne({ _id: ObjectId.createFromHexString(id) });
@@ -80,12 +69,9 @@ class UserMongoModel {
         }
     }
 
-    /**
-     * Reemplaza completamente los datos de un usuario en la colección `users`.
-     * @param {string} id - El ID del usuario a reemplazar.
-     * @param {Object} data - Los nuevos datos para el usuario.
-     * @returns {Promise<Object>} Un mensaje con la confirmación de que el usuario fue reemplazado.
-     */
+    // Reemplaza completamente los datos de un usuario en la colección `users`.
+    // @param {string} id - El ID del usuario a reemplazar.
+    // @param {Object} data - Los nuevos datos para el usuario.
     putUser = async (id, data) => {
         const user = await MongoConnection.db.collection("users").replaceOne(
             { _id: ObjectId.createFromHexString(id) },
@@ -94,12 +80,9 @@ class UserMongoModel {
         return user
     }
 
-    /**
-     * Elimina un usuario de la colección `users`.
-     * @param {string} id - El ID del usuario a eliminar.
-     * @returns {Promise<Object>} Un mensaje con la confirmación de que el usuario fue eliminado.
-     * @throws {Error} Si el usuario no existe o no se realizó la eliminación.
-     */
+    // Elimina un usuario de la colección `users`.
+    // @param {string} id - El ID del usuario a eliminar.
+    // @throws {Error} Si el usuario no existe o no se realizó la eliminación.
     deleteUser = async (id) => {
         try {
             const usuarioExistente = await MongoConnection.db.collection("users").findOne({ _id: ObjectId.createFromHexString(id) });

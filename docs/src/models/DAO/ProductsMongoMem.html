@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>ProductsMongoMem.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="..\..\..\docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>ProductsMongoMem.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-1">&#x00a7;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> <span class="hljs-title class_">MongoConnection</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../MongoConnection.js&quot;</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">ObjectId</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;mongodb&quot;</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ProdMongoModel</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-2">&#x00a7;</a>
+              </div>
+              <p>Recupera todos los productos almacenados en la colección <code>products</code>.
+@returns {Promise<Array>} Un array con todos los productos encontrados.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    getProd = <span class="hljs-keyword">async</span> () =&gt; {
+        <span class="hljs-keyword">const</span> products = <span class="hljs-keyword">await</span> <span class="hljs-title class_">MongoConnection</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;products&quot;</span>).<span class="hljs-title function_">find</span>({}).<span class="hljs-title function_">toArray</span>()
+        <span class="hljs-keyword">return</span> products
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-3">&#x00a7;</a>
+              </div>
+              <p>Busca un producto por su ID. Valida que el ID sea hexadecimal y tenga la longitud correcta.
+Si el producto no existe, devuelve un error.
+@param {string} id - El ID del producto a buscar.
+@throws {Error} Si el producto no existe o el ID es inválido.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    getProdById = <span class="hljs-keyword">async</span> (id) =&gt; {
+        <span class="hljs-keyword">try</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-4">&#x00a7;</a>
+              </div>
+              <p>Validación del ID</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (!<span class="hljs-title class_">ObjectId</span>.<span class="hljs-title function_">isValid</span>(id)) {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;ID inválido: debe ser un string hexadecimal de 24 caracteres.&quot;</span>);
+            }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-5">&#x00a7;</a>
+              </div>
+              <p>Buscar el producto</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">const</span> productoExistente = <span class="hljs-keyword">await</span> <span class="hljs-title class_">MongoConnection</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;products&quot;</span>).<span class="hljs-title function_">findOne</span>({ <span class="hljs-attr">_id</span>: <span class="hljs-title class_">ObjectId</span>.<span class="hljs-title function_">createFromHexString</span>(id) });
+            <span class="hljs-keyword">if</span> (!productoExistente) {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;El producto no existe en la base de datos.&quot;</span>);
+            }
+
+            <span class="hljs-keyword">return</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Producto encontrado.&quot;</span>, productoExistente };
+        } <span class="hljs-keyword">catch</span> (error) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`Error al obtener el producto: <span class="hljs-subst">${error.message}</span>`</span>);
+        }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-6">&#x00a7;</a>
+              </div>
+              <p>Inserta un nuevo producto en la colección <code>products</code>.
+@param {Object} data - Los datos del producto a agregar.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    postProd = <span class="hljs-keyword">async</span> (data) =&gt; {
+        <span class="hljs-keyword">const</span> newProduct = <span class="hljs-keyword">await</span> <span class="hljs-title class_">MongoConnection</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;products&quot;</span>).<span class="hljs-title function_">insertOne</span>(data)
+        <span class="hljs-keyword">return</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Producto agregado correctamente.&quot;</span>, newProduct }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-7">&#x00a7;</a>
+              </div>
+              <p>Actualiza parcialmente los datos de un producto en la colección <code>products</code>.
+@param {string} id - El ID del producto a actualizar.
+@param {Object} data - Los datos a actualizar en el producto.
+@throws {Error} Si el producto no existe o si no se realizaron cambios.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    patchProd = <span class="hljs-keyword">async</span> (id, data) =&gt; {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">const</span> productoExistente = <span class="hljs-keyword">await</span> <span class="hljs-title class_">MongoConnection</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;products&quot;</span>).<span class="hljs-title function_">findOne</span>({ <span class="hljs-attr">_id</span>: <span class="hljs-title class_">ObjectId</span>.<span class="hljs-title function_">createFromHexString</span>(id) });
+
+            <span class="hljs-keyword">if</span> (!productoExistente) {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;El producto no existe en la base de datos.&quot;</span>);
+            }
+
+            <span class="hljs-keyword">const</span> prod = <span class="hljs-keyword">await</span> <span class="hljs-title class_">MongoConnection</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;products&quot;</span>).<span class="hljs-title function_">updateOne</span>(
+                { <span class="hljs-attr">_id</span>: <span class="hljs-title class_">ObjectId</span>.<span class="hljs-title function_">createFromHexString</span>(id) },
+                { <span class="hljs-attr">$set</span>: data }
+            )
+
+            <span class="hljs-keyword">if</span> (prod.<span class="hljs-property">modifiedCount</span> === <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;No se realizaron cambios en el producto.&quot;</span>);
+            }
+
+            <span class="hljs-keyword">return</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Producto actualizado correctamente.&quot;</span>, prod }
+
+        } <span class="hljs-keyword">catch</span> (error) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`Error al actualizar el producto: <span class="hljs-subst">${error.message}</span>`</span>)
+        }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-8">&#x00a7;</a>
+              </div>
+              <p>Reemplaza completamente los datos de un producto en la colección <code>products</code>.
+@param {string} id - El ID del producto a reemplazar.
+@param {Object} data - Los nuevos datos para el producto.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    putProd = <span class="hljs-keyword">async</span> (id, data) =&gt; {
+        <span class="hljs-keyword">const</span> prod = <span class="hljs-keyword">await</span> <span class="hljs-title class_">MongoConnection</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;products&quot;</span>).<span class="hljs-title function_">replaceOne</span>(
+            { <span class="hljs-attr">_id</span>: <span class="hljs-title class_">ObjectId</span>.<span class="hljs-title function_">createFromHexString</span>(id) },
+            data
+        )
+        <span class="hljs-keyword">return</span> prod
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-9">&#x00a7;</a>
+              </div>
+              <p>Elimina un producto de la colección <code>products</code>.
+@param {string} id - El ID del producto a eliminar.
+@throws {Error} Si el producto no existe o no se realizó la eliminación.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    deleteProd = <span class="hljs-keyword">async</span> (id) =&gt; {
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">const</span> productoExistente = <span class="hljs-keyword">await</span> <span class="hljs-title class_">MongoConnection</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;products&quot;</span>).<span class="hljs-title function_">findOne</span>({ <span class="hljs-attr">_id</span>: <span class="hljs-title class_">ObjectId</span>.<span class="hljs-title function_">createFromHexString</span>(id) });
+
+            <span class="hljs-keyword">if</span> (!productoExistente) {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;El producto no existe en la base de datos.&quot;</span>);
+            }
+
+            <span class="hljs-keyword">const</span> prod = <span class="hljs-keyword">await</span> <span class="hljs-title class_">MongoConnection</span>.<span class="hljs-property">db</span>.<span class="hljs-title function_">collection</span>(<span class="hljs-string">&quot;products&quot;</span>).<span class="hljs-title function_">deleteOne</span>(
+                { <span class="hljs-attr">_id</span>: <span class="hljs-title class_">ObjectId</span>.<span class="hljs-title function_">createFromHexString</span>(id) },
+            )
+
+            <span class="hljs-keyword">if</span> (prod.<span class="hljs-property">deletedCount</span> === <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;No se realizó la eliminación del producto.&quot;</span>);
+            }
+
+            <span class="hljs-keyword">return</span> { <span class="hljs-attr">message</span>: <span class="hljs-string">&quot;Producto eliminado correctamente.&quot;</span>, prod };
+
+        } <span class="hljs-keyword">catch</span> (error) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`Error al eliminar el producto: <span class="hljs-subst">${error.message}</span>`</span>)
+        }
+    }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title class_">ProdMongoModel</span></pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
