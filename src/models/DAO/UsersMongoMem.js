@@ -5,35 +5,46 @@ class UserMongoModel {
     constructor() {
     }
 
+    // Recupera todos los usuarios almacenados en la colección `users`.
+    // @returns {Promise<Array>} Un array con todos los usuarios encontrados.
     getUser = async () => {
         const users = await MongoConnection.db.collection("users").find({}).toArray()
         return users
     }
 
+    // Busca un usuario por su ID. Valida que el ID sea hexadecimal y tenga la longitud correcta.
+    // Si el usuario no existe, devuelve un error.
+    // @param {string} id - El ID del usuario a buscar.
+    // @throws {Error} Si el usuario no existe o el ID es inválido.
     getUserById = async (id) => {
         try {
-            // Validación del ID para asegurarse de que tiene la longitud correcta
+            // Validación del ID
             if (!ObjectId.isValid(id)) {
                 throw new Error("ID inválido: debe ser un string hexadecimal de 24 caracteres.");
             }
 
-            // Si el ID es válido, intenta buscar el producto
+            // Buscar el usuario
             const usuarioExistente = await MongoConnection.db.collection("users").findOne({ _id: ObjectId.createFromHexString(id) })
             if (!usuarioExistente) {
                 throw new Error("El usuario no existe en la base de datos.");
             }
             return { message: "Usuario encontrado.", usuarioExistente }
-
         } catch (error) {
-            throw new Error(`Error al actualizar el usuario: ${error.message}`)
+            throw new Error(`Error al obtener el usuario: ${error.message}`)
         }
     }
 
+    // Inserta un nuevo usuario en la colección `users`.
+    // @param {Object} data - Los datos del usuario a agregar.
     postUser = async (data) => {
         const newUser = await MongoConnection.db.collection("users").insertOne(data)
         return { message: "Usuario agregado correctamente.", newUser }
     }
 
+    // Actualiza parcialmente los datos de un usuario en la colección `users`.
+    // @param {string} id - El ID del usuario a actualizar.
+    // @param {Object} data - Los datos a actualizar en el usuario.
+    // @throws {Error} Si el usuario no existe o si no se realizaron cambios.
     patchUser = async (id, data) => {
         try {
             const usuarioExistente = await MongoConnection.db.collection("users").findOne({ _id: ObjectId.createFromHexString(id) });
@@ -58,6 +69,9 @@ class UserMongoModel {
         }
     }
 
+    // Reemplaza completamente los datos de un usuario en la colección `users`.
+    // @param {string} id - El ID del usuario a reemplazar.
+    // @param {Object} data - Los nuevos datos para el usuario.
     putUser = async (id, data) => {
         const user = await MongoConnection.db.collection("users").replaceOne(
             { _id: ObjectId.createFromHexString(id) },
@@ -66,6 +80,9 @@ class UserMongoModel {
         return user
     }
 
+    // Elimina un usuario de la colección `users`.
+    // @param {string} id - El ID del usuario a eliminar.
+    // @throws {Error} Si el usuario no existe o no se realizó la eliminación.
     deleteUser = async (id) => {
         try {
             const usuarioExistente = await MongoConnection.db.collection("users").findOne({ _id: ObjectId.createFromHexString(id) });

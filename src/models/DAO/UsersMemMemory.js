@@ -1,5 +1,7 @@
-class UserMemModel{
-    constructor(){
+class UserMemModel {
+    constructor() {
+        // Lista de usuarios almacenados en memoria.
+        // @type {Array<{id: number, name: string, price: number}>}
         this.user = [
             {
               _id: "672e7a543e7ef25fe9e2022d",
@@ -76,16 +78,26 @@ class UserMemModel{
           ]
     }
 
+    // Obtiene todos los usuarios almacenados.
+    // @returns {Promise<Array<{id: number, name: string, price: number}>>} Lista de usuarios.
     getuser = async () => {
-        return this.user
+        return this.user;
     }
     
+    // Crea un nuevo usuario y lo agrega a la lista.
+    // @param {Object} data - Datos del nuevo usuario (name, price).
+    // @param {string} data.name - Nombre del usuario.
+    // @param {number} data.price - Precio asociado al usuario.
     postUser = async (data) => {
         data.id = this.user[this.user.length -1]._id +1
         this.user.push(data)
         return data
     }
 
+    // Actualiza parcialmente un usuario en la lista.
+    // @param {number} id - ID del usuario a actualizar.
+    // @param {Object} data - Datos para actualizar el usuario (name, price).
+    // @throws {Error} Si el usuario no existe.
     patchUser = async (id, data) => {
         try {
             const index = this.user.findIndex((e) => e._id == id)
@@ -94,10 +106,16 @@ class UserMemModel{
             this.user.splice(index, 1, updateUser)
             return updateUser
         } catch (error) {
-            console.error("La actualización parcial de usuarios no se pudo completar.")
+            console.error("La actualización parcial de usuarios no se pudo completar.");
+            // Vuelve a lanzar el error para que sea manejado por el controlador o el servicio.
+            throw error;  
         }
     }
 
+    // Actualiza completamente un usuario en la lista.
+    // @param {number} id - ID del usuario a actualizar.
+    // @param {Object} data - Datos para actualizar el usuario (name, price).
+    // @throws {Error} Si el usuario no existe.
     putUser = async (id, data) => {
         try {
             const index = this.user.findIndex((e) => e._id == id)
@@ -106,10 +124,15 @@ class UserMemModel{
             this.user.splice(index, 1, updateUser)
             return updateUser
         } catch (error) {
-            console.error("La actualización total de usuarios no se pudo completar.")
+            console.error("La actualización total de usuarios no se pudo completar.");
+            // Vuelve a lanzar el error para que sea manejado por el controlador o el servicio.
+            throw error;  
         }
     }
 
+    // Elimina un usuario por su ID.
+    // @param {number} id - ID del usuario a eliminar.
+    // @throws {Error} Si el usuario no existe.
     deleteuser = async (id) => {
         const index = this.user.findIndex((e) => e._id == id)
         if(index == -1){
@@ -119,7 +142,6 @@ class UserMemModel{
             return "El usuario se eliminó correctamente."
         }
     }
-
 }
 
-export default UserMemModel
+export default UserMemModel;
