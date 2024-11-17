@@ -27,12 +27,6 @@ class ProdController {
   }
 }
 
-  // postProd = async (req, res) => {
-  //   const data = req.body
-  //   const newProd = await this.service.postProd(data)
-  //   res.send(newProd)
-  // }
-
   postProd = async (req, res) => {
     const data = req.body
     try {
@@ -88,4 +82,4 @@ class ProdController {
 
 }
 
-export default ProdController
+export default ProdController  

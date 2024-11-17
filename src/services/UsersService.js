@@ -18,11 +18,6 @@ class UserService{
         return user
     }
 
-    // postUser = async (data) => {
-    //     const newUser = await this.model.postUser(data)
-    //     return newUser
-    // }
-
     postUser = async (data) => {
         if (validateUser(data)) {
             const newUser = await this.model.postUser(data)

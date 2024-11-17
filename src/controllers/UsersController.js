@@ -27,12 +27,6 @@ class UserController {
   }
 }
 
-  // postUser = async (req, res) => {
-  //   const data = req.body
-  //   const newUser = await this.service.postUser(data)
-  //   res.send(newUser)
-  // }
-
   postUser = async (req, res) => {
     const data = req.body
     try {
