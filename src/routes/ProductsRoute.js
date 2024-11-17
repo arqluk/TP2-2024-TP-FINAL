@@ -1,19 +1,20 @@
 import ProdController from "../controllers/ProductsController.js"
 import express from "express"
 
-class ProdRoutes{
-    constructor(){
+class ProdRoutes {
+    constructor() {
         this.router = express.Router()
         this.controller = new ProdController()
     }
 
-    start(){
+    start() {
         this.router.get("/prod", this.controller.getProd)
         this.router.get("/prod/:id", this.controller.getProdById)
         this.router.post("/prod", this.controller.postProd)
         this.router.patch("/prod/update/:id", this.controller.patchProd)
         this.router.put("/prod/update/all/:id", this.controller.putProd)
         this.router.delete("/prod/:id", this.controller.deleteProd)
+        this.router.get('/prod/priceInARS/:id', this.controller.getProdPriceInARS)
 
         return this.router
     }
