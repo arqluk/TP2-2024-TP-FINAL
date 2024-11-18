@@ -58,7 +58,6 @@ class ProdMongoModel {
         }
     }
 
-    // el PUT cambia por completo el objeto
     putProd = async (id, data) => {
         const prod = await MongoConnection.db.collection("products").replaceOne(
             { _id: ObjectId.createFromHexString(id) },

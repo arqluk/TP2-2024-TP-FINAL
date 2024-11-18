@@ -1,5 +1,6 @@
 import UserController from "../controllers/UsersController.js"
 import express from "express"
+import { roleAuth } from "../middleware/roleAuth.js"
 
 class UserRoutes{
     constructor(){
@@ -10,10 +11,10 @@ class UserRoutes{
     start(){
         this.router.get("/user", this.controller.getUser)
         this.router.get("/user/:id", this.controller.getUserById)
-        this.router.post("/user", this.controller.postUser)
-        this.router.patch("/user/update/:id", this.controller.patchUser)
-        this.router.put("/user/update/all/:id", this.controller.putUser)
-        this.router.delete("/user/:id", this.controller.deleteUser)
+        this.router.post("/user", roleAuth, this.controller.postUser)
+        this.router.patch("/user/update/:id", roleAuth, this.controller.patchUser)
+        this.router.put("/user/update/all/:id", roleAuth, this.controller.putUser)
+        this.router.delete("/user/:id", roleAuth, this.controller.deleteUser)
 
         return this.router
     }
