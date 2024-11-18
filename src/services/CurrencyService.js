@@ -21,23 +21,3 @@ class CurrencyService {
 }
 
 export default CurrencyService
-
-
-
-/* codigo para un archivo test.js o donde quieran usar la api
-
-import getExchangeRate from "./services/CurrencyService.js";
-
-const testExchangeRate = async () => {
-    try {
-        const rates = await getExchangeRate();
-        console.log(`Tasa de cambio oficial (compra): ${rates.compra}`);
-        console.log(`Tasa de cambio oficial (venta): ${rates.venta}`);
-    } catch (error) {
-        console.error(`Error: ${error.message}`);
-    }
-};
-
-testExchangeRate();
-
-*/
